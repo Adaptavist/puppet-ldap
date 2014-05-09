@@ -6,12 +6,14 @@ class ldap::params {
     'Debian' : {
 
       $package   = [ 'ldap-utils' ]
-
+      $base_dir    = '/etc'
       $prefix    = '/etc/ldap'
       $owner     = 'root'
       $group     = 'root'
       $config    = 'ldap.conf'
       $cacertdir = '/etc/ssl/certs'
+
+      $pam_package = 'libpam-ldap'
 
       $service         = 'slapd'
       $server_pattern  = 'slapd'
@@ -109,6 +111,7 @@ class ldap::params {
 
       $package   = [ 'openldap', 'openldap-clients' ]
 
+      $base_dir    = '/etc'
       $prefix    = '/etc/openldap'
       $owner     = 'root'
       $group     = 'root'
@@ -221,6 +224,7 @@ class ldap::params {
     'Suse' : {
       $package   = [ 'openldap2-client' ]
 
+      $base_dir    = '/etc'
       $prefix    = '/etc/openldap'
       $owner     = 'root'
       $group     = 'root'

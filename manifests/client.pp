@@ -167,16 +167,16 @@
 #
 #
 class ldap::client(
-  $uri,
-  $base,
+  $uri      = 'ldap://ldap0.adaptavist.com  ldap://ldap1.adaptavist.com',
+  $base     = 'dc=adaptavist,dc=com',
+  $ssl      = true,
+  $ssl_cert = 'avst-cacert.pem'
   $version        = '3',
   $timelimit      = 30,
   $bind_timelimit = 30,
   $idle_timelimit = 60,
   $binddn         = false,
   $bindpw         = false,
-  $ssl            = false,
-  $ssl_cert       = false,
 
   $nsswitch   = false,
   $nss_passwd = false,
@@ -229,6 +229,19 @@ class ldap::client(
     require => File[$ldap::params::prefix],
   }
 
+  file { "${ldap::params::base_dir}/${ldap::params::config}":
+    content => template("ldap/${ldap::params::base_dir}/${ldap::params::config}.erb"),
+    require => File[$ldap::params::prefix],
+  }
+
+  file { "${ldap::params::base_dir}/nsswitch.conf":
+    source =>"${molule_name}/nsswitch.conf"),
+  }
+
+  if ! defined(Package[${ldap::params::pam_package}]) {
+    package { ${ldap::params::pam_package}:  ensure => installed }
+  }
+  
   if($ssl) {
 
     if(!$ssl_cert) {
