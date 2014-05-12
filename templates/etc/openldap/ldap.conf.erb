@@ -50,11 +50,11 @@ sudoers_debug         <%= @sudoers_debug %>
 ssl           start_tls
 tls_reqcert   always
 tls_cacertdir <%= scope.lookupvar('ldap::params::cacertdir') %>
-tls_cacert    <%= scope.lookupvar('ldap::params::cacertdir') + scope.lookupvar('ldap::client::ssl_cert')%>
+tls_cacert    <%= scope.lookupvar('ldap::params::cacertdir') + "/" + scope.lookupvar('ldap::client::ssl_cert')%>
 <% else -%>
 #ssl           start_tls
 #tls_reqcert   always
 #tls_cacertdir <%= scope.lookupvar('ldap::params::cacertdir') %>
-#TLS_CACERT      /etc/ssl/certs/${CACERT}
+#tls_cacert      /etc/ssl/certs/${CACERT}
 <% end -%>
 

@@ -1,0 +1,15 @@
+
+uri  <%= @uri %>
+base <%= @base %>
+
+ldap_version   <%= @version %>
+
+binddn uid=<%=@uid%>,<%=@base%>
+bindpw <%=@password%>
+
+pam_password exop
+ssl start_tls
+nss_initgroups_ignoreusers,backup,bin,daemon,games,gnats,irc,libuuid,list,lp,mail,man,messagebus,mysql,nagios,news,proxy,root,sshd,statd,sync,sys,syslog,uucp,www-data
+
+
+

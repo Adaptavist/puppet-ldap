@@ -169,14 +169,18 @@
 class ldap::client(
   $uri      = 'ldap://ldap0.adaptavist.com  ldap://ldap1.adaptavist.com',
   $base     = 'dc=adaptavist,dc=com',
+  $domain   = 'adaptavist.com',
   $ssl      = true,
-  $ssl_cert = 'avst-cacert.pem'
+  $ssl_cert = 'avst-cacert.pem',
+  $uid      = 'adaptavist_service_unix_ldap',
+  $password = 'adaptavist30000',
+  # $dit      = ['adaptavist', 'com'], 
   $version        = '3',
   $timelimit      = 30,
   $bind_timelimit = 30,
   $idle_timelimit = 60,
-  $binddn         = false,
-  $bindpw         = false,
+  $binddn         = 'uid=adaptavist_service_unix_ldap,dc=adaptavist,dc=com',
+  $bindpw         = 'adaptavist30000',
 
   $nsswitch   = false,
   $nss_passwd = false,
@@ -235,11 +239,15 @@ class ldap::client(
   }
 
   file { "${ldap::params::base_dir}/nsswitch.conf":
-    source =>"${molule_name}/nsswitch.conf"),
+    source => "puppet:///modules/${module_name}/nsswitch.conf",
   }
 
-  if ! defined(Package[${ldap::params::pam_package}]) {
-    package { ${ldap::params::pam_package}:  ensure => installed }
+  file { "${ldap::params::base_dir}/idmapd.conf":
+    content => template("ldap/${ldap::params::base_dir}/idmapd.conf.erb"),
+  }
+
+  if ! defined(Package[$ldap::params::pam_package]) {
+    package { $ldap::params::pam_package :  ensure => installed }
   }
   
   if($ssl) {

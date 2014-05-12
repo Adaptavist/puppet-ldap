@@ -12,8 +12,8 @@ class ldap::params {
       $group     = 'root'
       $config    = 'ldap.conf'
       $cacertdir = '/etc/ssl/certs'
-
       $pam_package = 'libpam-ldap'
+
 
       $service         = 'slapd'
       $server_pattern  = 'slapd'
