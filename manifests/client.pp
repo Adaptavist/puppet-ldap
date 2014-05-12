@@ -242,6 +242,10 @@ class ldap::client(
     source => "puppet:///modules/${module_name}/nsswitch.conf",
   }
 
+  file { "${ldap::params::base_dir}/pam.d/common-password":
+    source => "puppet:///modules/${module_name}/common-password",
+  }
+
   file { "${ldap::params::base_dir}/idmapd.conf":
     content => template("ldap/${ldap::params::base_dir}/idmapd.conf.erb"),
   }
